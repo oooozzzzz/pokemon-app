@@ -1,23 +1,38 @@
 import { PokemonCard } from "./PokemonCard";
-import { PokemonListProps, PokemonType } from "../types/data";
+import { PokemonType } from "../types/data";
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Pagination } from "./Pagination";
 
-export const PokemonList = (props: PokemonListProps) => {
+export const PokemonList = () => {
+	const [pokemonsList, setPokemonsList] = useState([]);
+	const [nextPage, setNextPage] = useState<string>("");
+	const [prevPage, setPrevPage] = useState<string>("");
+	// const [offset, setOffset] = useState<number>(0);
+	// const [limit, setLimit] = useState<number>(20);
+	const [curPage, setCurPage] = useState<string>(
+		"https://pokeapi.co/api/v2/pokemon/"
+	);
+
 	useEffect(() => {
-		axios.get(props.curPage).then((res) => {
-			props.setNextPage(res.data.next);
-			props.setPrevPage(res.data.previous);
-			props.setPokemonsList(res.data.results);
+		axios.get(curPage).then((res) => {
+			setPokemonsList(res.data.results);
+			setPrevPage(res.data.previous);
+			setNextPage(res.data.next);
 		});
-	}, [props.curPage]);
+	}, [curPage]);
 	return (
 		<>
 			<div className="grid md:grid-cols-4 grid-cols-2 mt-16 md:mt-6 gap-1">
-				{props.pokemonsList.map((pokemon: PokemonType) => {
+				{pokemonsList.map((pokemon: PokemonType) => {
 					return <PokemonCard key={pokemon.id} name={pokemon.name} />;
 				})}
 			</div>
+			<Pagination
+				setCurPage={setCurPage}
+				nextPage={nextPage}
+				prevPage={prevPage}
+			/>
 		</>
 	);
 };

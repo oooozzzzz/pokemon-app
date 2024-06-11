@@ -23,9 +23,9 @@ export type Description = {
 };
 
 export type PokemonListProps = {
-	pokemonsList: Array<PokemonType>;
-	curPage: string,
-	setPokemonsList: CallableFunction;
-	setPrevPage: CallableFunction;
-	setNextPage: CallableFunction;
+	// pokemonsList: Array<PokemonType>;
+	// curPage: string,
+	// setPokemonsList: CallableFunction;
+	// setPrevPage: CallableFunction;
+	// setNextPage: CallableFunction;
 };
